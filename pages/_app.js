@@ -9,6 +9,7 @@ import { parseCookies, destroyCookie } from "nookies";
 import baseUrl from "../utils/baseUrl";
 import { redirectUser } from "../utils/authUser";
 import Layout from "../components/Layout";
+import { PacmanLoader } from 'react-spinners'
 import "react-toastify/dist/ReactToastify.css"; //import react toastify in _app.js
 import "semantic-ui-css/semantic.min.css"; //semantic ui css package
 
@@ -35,7 +36,9 @@ const [isClient, setIsClient] = useState(false); // Add a state variable to chec
         {isClient ? ( // Use isClient to conditionally render content
           <Component {...pageProps} />
         ) : (
-          <h1>Prerendered</h1> // Content to be prerendered
+          <div class="flex h-screen items-center justify-center">
+              <PacmanLoader size={30} color="#5636d6" />
+          </div> // Content to be prerendered
         )}
       </Provider>
     </Layout>
