@@ -3,8 +3,8 @@ import cookie from "js-cookie";
 import { loginUser } from "../utils/authUser";
 import styled from "styled-components";
 import Link from "next/link";
-import Visibility from "@material-ui/icons/Visibility";
-import VisibilityOff from "@material-ui/icons/VisibilityOff";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { Heading, Subheading } from "../components/HelperComponents/Headings";
 import {
   Input,

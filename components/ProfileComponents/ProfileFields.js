@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import YouTubeIcon from "@material-ui/icons/YouTube";
-import TwitterIcon from "@material-ui/icons/Twitter";
-import FacebookIcon from "@material-ui/icons/Facebook";
-import InstagramIcon from "@material-ui/icons/Instagram";
+import YouTubeIcon from "@mui/icons-material/YouTube";
+import TwitterIcon from "@mui/icons-material/Twitter";
+import FacebookIcon from "@mui/icons-material/Facebook";
+import InstagramIcon from "@mui/icons-material/Instagram";
 import { ArrowSmRightIcon, PencilAltIcon } from "@heroicons/react/solid";
 import { profileUpdate } from "../../utils/profileActions";
 import Loader from "react-loader-spinner";

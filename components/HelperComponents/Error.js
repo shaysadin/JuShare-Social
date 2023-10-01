@@ -1,4 +1,4 @@
-import ErrorOutlineIcon from "@material-ui/icons/ErrorOutline";
+import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import React from "react";
 import styled from "styled-components";
 

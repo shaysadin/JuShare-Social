@@ -9,14 +9,14 @@ import {
   Password,
   PasswordInput,
 } from "../components/HelperComponents/Inputs";
-import ErrorOutlineIcon from "@material-ui/icons/ErrorOutline";
+import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { useDispatch } from "react-redux";
 import { addToUser } from "../redux/userSlice";
 import axios from "axios";
 import baseUrl from "../utils/baseUrl";
-import { CircularProgress } from "@material-ui/core";
-import CheckCircleIcon from "@material-ui/icons/CheckCircle";
-import CancelIcon from "@material-ui/icons/Cancel";
+import { CircularProgress } from "@mui/material";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import CancelIcon from "@mui/icons-material/Cancel";
 
 const regexUserName = /^(?!.*\.\.)(?!.*\.$)[^\W][\w.]{0,29}$/; //regex to validate username
 
@@ -101,11 +101,13 @@ function AddUserInfo({
     setUsername(sessionStorage.getItem("username") || "");
   }, []);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     console.log(`username : ${username}`);
     username === "" ? setUsernameAvailable(false) : checkUsername();
     //eslint-disable-line react-hooks/exhaustive-deps
   }, [username]); //this will execute on first component mount and then every time username is changed
+
 
   //useEffect for checking if all values have been filled
   useEffect(() => {

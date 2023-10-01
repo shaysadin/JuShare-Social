@@ -10,7 +10,7 @@ import {
 } from "@heroicons/react/outline";
 import { deletePost, likePost, postComment } from "../utils/postActions";
 import CommentComponent from "./CommentComponent";
-import { TextareaAutosize } from "@material-ui/core";
+import { TextareaAutosize } from "@mui/material";
 import { useRouter } from "next/router";
 import ReusableDialog from "./ReusableDialog";
 import toast, { Toaster } from "react-hot-toast";

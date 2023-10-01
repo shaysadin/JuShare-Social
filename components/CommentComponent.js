@@ -50,6 +50,7 @@ function CommentComponent({ comment, postId, user, setComments }) {
         src={comment.user.profilePicUrl}
         style={{ height: "2.45rem", width: "2.45rem", marginTop: ".2rem" }}
         className="mr-2"
+        alt="ProfilePic"
       />
       {/* extra div for flex of comment text div and the three dots  */}
       <div

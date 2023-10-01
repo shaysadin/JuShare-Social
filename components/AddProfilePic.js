@@ -11,12 +11,12 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { selectUser } from "../redux/userSlice";
 import ImageDiv from "./ImageDiv";
-import YouTubeIcon from "@material-ui/icons/YouTube";
-import TwitterIcon from "@material-ui/icons/Twitter";
-import FacebookIcon from "@material-ui/icons/Facebook";
-import InstagramIcon from "@material-ui/icons/Instagram";
+import YouTubeIcon from "@mui/icons-material/YouTube";
+import TwitterIcon from "@mui/icons-material/Twitter";
+import FacebookIcon from "@mui/icons-material/Facebook";
+import InstagramIcon from "@mui/icons-material/Instagram";
 import mediaqueries from "../utils/mediaqueries";
-import ArrowForwardRoundedIcon from "@material-ui/icons/ArrowForwardRounded";
+import ArrowForwardRoundedIcon from "@mui/icons-material/ArrowForwardRounded";
 import { Circle } from "better-react-spinkit";
 import uploadPic from "../utils/uploadPic";
 import { registerUser } from "../utils/authUser";

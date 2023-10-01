@@ -11,7 +11,7 @@ import { SearchIcon } from "@heroicons/react/outline";
 import styled from "styled-components";
 import calculateTime from "../utils/calculateTime";
 import Chat from "../components/Chat/Chat";
-import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
+import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 import { getUserInfo } from "../utils/messageActions";
 import Loader from "react-loader-spinner";
 import cookie from "js-cookie";

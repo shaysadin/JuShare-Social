@@ -7,7 +7,7 @@ import {
   CogIcon,
   UserGroupIcon,
 } from "@heroicons/react/outline";
-import GroupIcon from "@material-ui/icons/Group";
+import GroupIcon from "@mui/icons-material/Group";
 import SidebarRow from "./HelperComponents/SidebarRow";
 
 function Sidebar({ user, topDist, maxWidth }) {

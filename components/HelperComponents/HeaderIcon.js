@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
+import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 
 function HeaderIcon({ Icon, active, IconSolid, unread }) {
   return (
