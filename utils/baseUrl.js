@@ -1,6 +1,6 @@
 const baseUrl =
   process.env.NODE_ENV !== "production"
     ? "http://localhost:3000"
-    : "https://ju-share-social.vercel.app";
+    : "https://jusee-social.onrender.com";
 
 export default baseUrl;

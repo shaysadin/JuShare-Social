@@ -70,6 +70,7 @@ MyApp.getInitialProps = async ({ Component, ctx }) => {
     //this means if there are protected routes in pathname, then move user to /login page since no token
   } else {
     //if TOKEN EXISTS
+    console.log('token exists');
     if (Component.getInitialProps) {
       //Component is the active page here
       //if an active page is requesting getInitialProps, then
