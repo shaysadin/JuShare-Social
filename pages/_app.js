@@ -49,7 +49,6 @@ MyApp.getInitialProps = async ({ Component, ctx }) => {
   //ctx we used in index.js is a property inside of appContext
   //getInitialProps always resolves to an object
   //{Component,ctx} destructured from appContext
-  console.log(ctx);
   const { token } = parseCookies(ctx); //parseCookies need context to parse cookies
   //we set cookie name to token in authUser utility;
   let pageProps = {};

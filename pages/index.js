@@ -60,7 +60,6 @@ function Home({ user, userFollowStats, postsData, chatsData, errorLoading }) {
 
 Home.getInitialProps = async (ctx) => {
   try {
-    console.log("token");
     const { token } = parseCookies(ctx);
 
     const res = await axios.get(`${baseUrl}/api/posts`, {
