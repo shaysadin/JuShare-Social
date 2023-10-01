@@ -24,14 +24,20 @@ const {
 } = require("./utils/messageActions");
 
 connectDb();
-const corsOptions = {
+const corsOpts = {
   origin: '*',
-  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-  credentials: true, // If you need to include cookies in the request
+
+  methods: [
+    'GET',
+    'POST',
+  ],
+
+  allowedHeaders: [
+    'Content-Type',
+  ],
 };
 
-app.use(cors(corsOptions));
-
+app.use(cors(corsOpts));
 app.use(express.json()); //bodyparser- used basically for getting req.body in a good format
 //In next js, server an app both run on the same port, i.e. port 3000
 // we don't need two separate ports for frontend and backend
