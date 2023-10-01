@@ -4,8 +4,8 @@ import cookie from "js-cookie";
 import { registerUser } from "../utils/authUser";
 import AddUserInfo from "../components/AddUserInfo";
 import AddProfilePic from "../components/AddProfilePic";
-import ChevronRightRoundedIcon from "@material-ui/icons/ChevronRightRounded";
-import ChevronLeftRoundedIcon from "@material-ui/icons/ChevronLeftRounded";
+import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
+import ChevronLeftRoundedIcon from "@mui/icons-material/ChevronLeftRounded";
 import styled from "styled-components";
 
 function Signup() {

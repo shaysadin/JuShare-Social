@@ -17,7 +17,7 @@ import FacebookIcon from "@mui/icons-material/Facebook";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import mediaqueries from "../utils/mediaqueries";
 import ArrowForwardRoundedIcon from "@mui/icons-material/ArrowForwardRounded";
-import { Circle } from "better-react-spinkit";
+import { PuffLoader } from "react-spinners";
 import uploadPic from "../utils/uploadPic";
 import { registerUser } from "../utils/authUser";
 import ErrorComponent from "./HelperComponents/Error";
@@ -150,7 +150,7 @@ function AddProfilePic() {
         {errorMessage !== "" && <ErrorComponent errorMessage={errorMessage} />}
         <ArrowRightDiv onClick={() => submitProfile()}>
           {loading ? (
-            <Circle size={22} color="white" />
+            <PuffLoader size={22} color="white" />
           ) : (
             <ArrowForwardRoundedIcon
               style={{ color: "white", fontSize: "1.8rem" }}

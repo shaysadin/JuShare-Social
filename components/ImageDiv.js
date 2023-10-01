@@ -2,9 +2,9 @@ import styles from "../styles/styles.module.css";
 import React from "react";
 import styled from "styled-components";
 import uploadPic from "../utils/uploadPic";
-import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
-import AddCircleIcon from "@material-ui/icons/AddCircle";
-import CreateIcon from "@material-ui/icons/Create";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
+import CreateIcon from "@mui/icons-material/Create";
 
 function ImageDiv({
   mediaPreview,
