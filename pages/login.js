@@ -71,10 +71,10 @@ function Login() {
           Log In
         </h1>
         <Heading fontSize={"2.6rem"} fontWeight={"600"}>
-          FaeShare
+          JuSay
         </Heading>
         <Subheading fontSize={"1.48rem"}>
-          Get your fair share of attention.
+          The JuSee platform community.
         </Subheading>
         <LoginBox className="h-[29.25rem] w-[29.5rem]  lg:w-[30.5rem]">
           <Input
@@ -116,7 +116,7 @@ function Login() {
           ></span>
 
           <BottomText>
-            New to FaShare?{" "}
+            New to JuSay?{" "}
             <Link href="/signup" passHref>
               <BottomAnchor>Create an account.</BottomAnchor>
             </Link>

@@ -44,7 +44,7 @@ const Headtags = () => (
 
       {/*The CSS files are in the public folder 
          With Next.js, we can create a public folder in the root and then save some files there and refer to them by '/<filename>'*/}
-      <title>FaeShare</title>
+      <title>JuSay</title>
     </Head>
   </>
 );
