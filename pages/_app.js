@@ -42,7 +42,7 @@ const [isClient, setIsClient] = useState(false); // Add a state variable to chec
   );
 }
 
-MyApp.getInitialProps = async ({ Component, ctx }) => {
+MyApp.getServerSideProps  = async ({ Component, ctx }) => {
   //ctx we used in index.js is a property inside of appContext
   //getInitialProps always resolves to an object
   //{Component,ctx} destructured from appContext
@@ -73,7 +73,7 @@ MyApp.getInitialProps = async ({ Component, ctx }) => {
     if (Component.getInitialProps) {
       //Component is the active page here
       //if an active page is requesting getInitialProps, then
-      pageProps = await Component.getInitialProps(ctx);
+      pageProps = await Component.getServerSideProps(ctx);
       //since we're doing this when token is there, we'll only get the user and userFollowStats on protected routes since we're awaiting pageProps when token exists. pageProps.user = user (i.e. pageProps consists of user)
     }
 
