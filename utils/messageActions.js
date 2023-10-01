@@ -103,6 +103,8 @@ const sendText = async (userId, userToTextId, text) => {
   }
 };
 
+
+
 const setMessageToUnread = async (userId) => {
   try {
     const user = await UserModel.findById(userId);

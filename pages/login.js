@@ -13,7 +13,7 @@ import {
 } from "../components/HelperComponents/Inputs";
 import ErrorComponent from "../components/HelperComponents/Error";
 import loaderGif from "../logo/chat.gif";
-import { ThreeBounce } from "better-react-spinkit";
+import { BeatLoader  } from "react-spinners";
 import { useRouter } from "next/router";
 
 function Login() {
@@ -59,7 +59,7 @@ function Login() {
 
   return (
     <>
-      <Container>
+      <Container >
         <h1
           style={{
             fontSize: "2.8rem",
@@ -104,7 +104,7 @@ function Login() {
           )}
 
           <Button disabled={submitDisabled} onClick={handleSubmit}>
-            {loading ? <ThreeBounce size={9} color="#fff" /> : "Log In"}
+            {loading ? <BeatLoader size={9} color="#fff" /> : "Log In"}
           </Button>
           <SmallButton>Forgotten Password?</SmallButton>
           <span
@@ -182,7 +182,7 @@ const SmallButton = styled.p`
   }
 `;
 
-const BottomText = styled.p`
+const BottomText = styled.div`
   color: #b19cd9;
   font-size: 1.1rem;
   text-align: center;
@@ -191,7 +191,7 @@ const BottomText = styled.p`
   font-weight: 300;
 `;
 
-const BottomAnchor = styled.a`
+const BottomAnchor = styled.p`
   color: #ff8af2;
   :hover {
     cursor: pointer;

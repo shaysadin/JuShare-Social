@@ -46,7 +46,7 @@ function Header({ user }) {
               fontSize: "1.8rem",
             }}
           >
-            fae
+            chax
           </p>
         </div>
 
@@ -59,7 +59,7 @@ function Header({ user }) {
               fontSize: "1.8rem",
             }}
           >
-            fae
+            chax
           </p>
         </div>
 
@@ -93,7 +93,7 @@ function Header({ user }) {
             </div>
           </Link>
           <Link href={`/user/${user._id}/following`} passHref>
-            <div className="hidden sm:inline-flex">
+            <div className="sm:inline-flex">
               <HeaderIcon
                 active={activeRoute(`/user/${user._id}/following`)}
                 Icon={UsersIcon}

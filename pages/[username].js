@@ -48,7 +48,7 @@ function ProfilePage({
   const [error, setError] = useState(null);
   const [loadingCoverPic, setLoadingCoverPic] = useState(false);
   const [loadingProfilePic, setLoadingProfilePic] = useState(false);
-  const isUserOnOwnAccount = profile.user._id === user._id;
+  const isUserOnOwnAccount = profile && profile.user && profile.user._id === user._id;
 
   //state for rendering posts
   const router = useRouter();
@@ -60,10 +60,17 @@ function ProfilePage({
   const [loadingFollowStats, setLoadingFollowStats] = useState(false);
 
   const isLoggedInUserFollowing =
-    loggedUserFollowStats.following.length > 0 &&
-    loggedUserFollowStats.following.filter(
-      (following) => following.user === profile.user._id
-    ).length > 0;
+    // loggedUserFollowStats.following.length > 0 &&
+    // loggedUserFollowStats.following.filter(
+    //   (following) => following.user === profile.user._id
+    // ).length > 0;
+    loggedUserFollowStats &&
+  loggedUserFollowStats.following &&
+  profile &&
+  profile.user &&
+  loggedUserFollowStats.following.filter(
+    (following) => following.user === profile.user._id
+  ).length > 0;
 
   const addImageFromDevice = async (e, name) => {
     const { files } = e.target;
@@ -191,7 +198,7 @@ function ProfilePage({
             {coverPicPreview !== null ? (
               <CoverImage src={coverPicPreview} alt="cover pic" />
             ) : (
-              <CoverImage src={profile.user.coverPicUrl} alt="cover pic" />
+              <CoverImage src={profile?.user?.coverPicUrl} alt="cover pic" />
             )}
 
             <input
@@ -205,10 +212,10 @@ function ProfilePage({
             {profilePicPreview !== null ? (
               <ProfileImage src={profilePicPreview} alt="profilepic" />
             ) : (
-              <ProfileImage src={profile.user.profilePicUrl} alt="profilepic" />
+              <ProfileImage src={profile?.user?.profilePicUrl} alt="profilepic" />
             )}
 
-            <Name className="font-semibold text-3xl">{profile.user.name}</Name>
+            <Name className="font-semibold text-3xl">{profile?.user?.name}</Name>
             {/* <Username className="text-xl font-normal text-gray-600">{`@${profile.user.username}`}</Username> */}
 
             {!isUserOnOwnAccount &&
@@ -281,7 +288,7 @@ function ProfilePage({
       >
         <div className=" md:flex space-x-4 mx-auto max-w-[30rem] sm:max-w-xl md:max-w-3xl lg:max-w-[1000px]">
           <div
-            className="max-w-[28rem] ml-4 static mt-3 md:sticky md:mt-6 flex-1 md:max-w-[27rem]"
+            className="max-w-[28rem] mr-4 ml-4 static mt-3 md:sticky md:mt-6 flex-1 md:max-w-[27rem]"
             style={{
               // position: "-webkit-sticky" /* for Safari */,
               // position: "sticky",

@@ -7,6 +7,7 @@ const PostSchema = new Schema(
     text: { type: String, required: true },
     location: { type: String },
     picUrl: { type: String },
+    vidUrl: { type: String },
     likes: [{ user: { type: Schema.Types.ObjectId, ref: "User" } }],
     comments: [
       // by default, if we dont provide any _id, mongo db adds it by itself. But we can override that by specifying _id ourselves

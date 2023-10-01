@@ -32,7 +32,7 @@ function Dropdown({ user, showDropdown, setShowDropdown }) {
         boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
       }}
     >
-      <Link href={`/${user.username}`} passHref>
+      <Link href={`/${user.username}`}>
         <ContainerDiv>
           <div>
             <Image

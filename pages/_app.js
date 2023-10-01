@@ -1,4 +1,5 @@
 import App from "next/app";
+import { useState, useEffect } from "react";
 import "../styles/tailwind-index.css";
 import axios from "axios";
 import { Provider } from "react-redux";
@@ -12,13 +13,31 @@ import "react-toastify/dist/ReactToastify.css"; //import react toastify in _app.
 import "semantic-ui-css/semantic.min.css"; //semantic ui css package
 
 function MyApp({ Component, pageProps }) {
+//   return (
+//     <Layout {...pageProps}>
+//       <Provider store={store}>
+//         <Component {...pageProps} />
+//       </Provider>
+
+//       {/*here, we could've also done: <Component posts={pageProps.posts}></Component> */}
+//     </Layout>
+//   );
+// }
+const [isClient, setIsClient] = useState(false); // Add a state variable to check if it's on the client side
+
+  useEffect(() => {
+    setIsClient(true); // Set isClient to true once the component is mounted on the client side
+  }, []);
+
   return (
     <Layout {...pageProps}>
       <Provider store={store}>
-        <Component {...pageProps} />
+        {isClient ? ( // Use isClient to conditionally render content
+          <Component {...pageProps} />
+        ) : (
+          <h1>Prerendered</h1> // Content to be prerendered
+        )}
       </Provider>
-
-      {/*here, we could've also done: <Component posts={pageProps.posts}></Component> */}
     </Layout>
   );
 }

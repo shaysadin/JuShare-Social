@@ -11,13 +11,18 @@ import { ExclamationCircleIcon } from "@heroicons/react/outline";
 import InfoBox from "./HelperComponents/InfoBox";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import Loader from "react-loader-spinner";
+import app from '../utils/firebase';
+import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 
 function InputBox({ user, setPosts, increaseSizeAnim }) {
   const inputRef = useRef(null);
   const buttonRef = useRef(null);
   const filePickerRef = useRef(null);
+  const videoPickerRef = useRef(null);
   const [image, setImage] = useState(null);
+  const [file, setFile] = useState(null)
   const [imagePreview, setImagePreview] = useState(null);
+  const [videoPreview, setVideoPreview] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [textareaEnabled, setTextareaEnabled] = useState(false);
@@ -25,7 +30,6 @@ function InputBox({ user, setPosts, increaseSizeAnim }) {
     postText: "",
     location: "",
   });
-
   const { postText, location } = newPost;
 
   const handleChange = (e) => {
@@ -37,13 +41,20 @@ function InputBox({ user, setPosts, increaseSizeAnim }) {
     const { files } = e.target;
     setImage(files[0]); //files that we receive from e.target is automatically an array, so we don't need Array.from
     setImagePreview(URL.createObjectURL(files[0]));
+
+  };
+
+  const addVideoFromDevice = (e) => {
+    const { files } = e.target;
+    setFile(files[0]); //files that we receive from e.target is automatically an array, so we don't need Array.from
+    setVideoPreview(URL.createObjectURL(files[0]));
   };
 
   const createPost = async (e) => {
     e.preventDefault();
     setLoading(true);
     let picUrl;
-
+    let vidUrl;
     if (image !== null) {
       picUrl = await uploadPic(image);
       console.log(picUrl);
@@ -53,21 +64,64 @@ function InputBox({ user, setPosts, increaseSizeAnim }) {
       }
     }
 
+    if (file !== null) {
+      const fileName = new Date().getTime() + file?.name;
+      const storage = getStorage(app);
+      const storageRef = ref(storage, fileName);
+
+      const uploadTask = uploadBytesResumable(storageRef, file);
+
+      vidUrl = await new Promise((resolve, reject) => {
+        uploadTask.on('state_changed',
+          (snapshot) => {
+            // Observe state change events such as progress, pause, and resume
+            // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+            const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            console.log('Upload is ' + progress + '% done');
+            switch (snapshot.state) {
+              case 'paused':
+                console.log('Upload is paused');
+                break;
+              case 'running':
+                console.log('Upload is running');
+                break;
+            }
+          },
+          (error) => {
+            // Handle unsuccessful uploads
+            reject(error);
+          },
+          () => {
+            // Handle successful uploads on complete
+            // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+            getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+              console.log('File available at', downloadURL);
+              resolve(downloadURL);
+            });
+          });
+      });
+    }
+
+    console.log(vidUrl);
+
     await submitNewPost(
       newPost.postText,
       newPost.location,
       picUrl,
+      vidUrl,
       setPosts,
       setNewPost,
       setError
     );
 
+    setFile(null);
+    setVideoPreview(null);
     setImage(null);
     setImagePreview(null);
     setLoading(false);
   };
 
-  const FormBottomHalf = ({}) => {
+  const FormBottomHalf = ({ }) => {
     return (
       <>
         <span
@@ -79,6 +133,7 @@ function InputBox({ user, setPosts, increaseSizeAnim }) {
             display: "block",
           }}
         ></span>
+
 
         <div className="flex space-x-4 mt-2 ml-4 mr-4 justify-evenly items-center">
           <div
@@ -95,6 +150,25 @@ function InputBox({ user, setPosts, increaseSizeAnim }) {
             />
             <p>Photo</p>
           </div>
+          <div
+            className="flex flex-grow justify-center items-center hover:bg-gray-100 space-x-2 mb-2 pt-2 pb-2 pl-2.5 pr-2.5 rounded-xl cursor-pointer"
+            onClick={() => {
+              if (videoPickerRef.current) {
+                videoPickerRef.current.click();
+              }
+            }}
+          >
+            <CameraIcon className="h-7  " />
+            <input
+              ref={videoPickerRef}
+              onChange={addVideoFromDevice}
+              type="file"
+              accept="video/*"
+              style={{ display: "none" }}
+            />
+            <p>video</p>
+          </div>
+
           <button
             className="flex flex-grow justify-center items-center hover:bg-gray-100 space-x-2 mb-2 pt-2 pb-2 pl-2.5 pr-2.5 rounded-xl cursor-pointer"
             type="submit"
@@ -197,6 +271,25 @@ function InputBox({ user, setPosts, increaseSizeAnim }) {
                     </ImageContainerDiv>
                   </>
                 )}
+                {videoPreview && (
+                  <>
+                    <ImageContainerDiv
+                      style={{ marginTop: "1.15rem", marginBottom: "-1.2rem" }}
+                    >
+                      <ImagePreviewDiv
+                        onClick={() => {
+                          setFile(null);
+                          setVideoPreview(null);
+                        }}
+                      >
+                        <XIcon className="h-6 text-gray-700" />
+                      </ImagePreviewDiv>
+                      <VideoPreview
+                        src={videoPreview}
+                      ></VideoPreview>
+                    </ImageContainerDiv>
+                  </>
+                )}
                 <FormBottomHalf />
               </form>
             </div>
@@ -248,6 +341,26 @@ function InputBox({ user, setPosts, increaseSizeAnim }) {
                     </ImageContainerDiv>
                   </>
                 )}
+                {videoPreview && (
+                  <>
+                    <ImageContainerDiv
+                      style={{ marginTop: "1.15rem", marginBottom: "-1.2rem" }}
+                    >
+                      <ImagePreviewDiv
+                        onClick={() => {
+                          setFile(null);
+                          setVideoPreview(null);
+                        }}
+                      >
+                        <XIcon className="h-6 text-gray-700" />
+                      </ImagePreviewDiv>
+                      <VideoPreview
+                        controls
+                        src={videoPreview}
+                      ></VideoPreview>
+                    </ImageContainerDiv>
+                  </>
+                )}
                 <FormBottomHalf />
               </form>
             </div>
@@ -282,6 +395,16 @@ const ImagePreview = styled.img`
   object-fit: contain;
   height: 300px;
   width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 1.2rem;
+  transition: all 0.22s ease-out;
+`;
+
+const VideoPreview = styled.video`
+  object-fit: fill;
+  height: 300px;
+  width: 100%;
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 1.2rem;

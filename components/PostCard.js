@@ -131,6 +131,8 @@ function PostCard({ post, user, setPosts, postById }) {
       </div>
 
       {post.picUrl && <PostImage src={post.picUrl} />}
+      {post.vidUrl && <PostVideo controls> <source src={post.vidUrl}/> </PostVideo>}
+
 
       <div style={{ marginTop: "0.65rem" }} className="ml-5 mr-5">
         <div className="flex justify-between w-full">
@@ -169,6 +171,7 @@ function PostCard({ post, user, setPosts, postById }) {
             }}
           />
           <p
+            className="hidden md:block"
             style={{
               userSelect: "none",
               color: `${isLiked ? "black" : "rgba(107, 114, 128)"}`,
@@ -183,7 +186,7 @@ function PostCard({ post, user, setPosts, postById }) {
           className="flex flex-grow justify-center hover:bg-gray-100 space-x-2 mb-1 mt-1 pt-2 pb-2 pl-2.5 pr-2.5 rounded-xl cursor-pointer"
         >
           <ChatAltIcon className="h-6" />
-          <p style={{ userSelect: "none" }}>Comment</p>
+          <p className="hidden md:block" style={{ userSelect: "none" }}>Comment</p>
         </div>
         <div
           onClick={() => {
@@ -194,7 +197,7 @@ function PostCard({ post, user, setPosts, postById }) {
           className="flex flex-grow justify-center hover:bg-gray-100 space-x-2 mb-1 mt-1 pt-2 pb-2 pl-2.5 pr-2.5 rounded-xl cursor-pointer"
         >
           <ShareIcon className="h-6" />
-          <p style={{ userSelect: "none" }}>Share</p>
+          <p className="hidden md:block" style={{ userSelect: "none" }}>Share</p>
         </div>
       </div>
 
@@ -296,6 +299,17 @@ const PostImage = styled.img`
   object-fit: contain;
   height: auto;
   max-height: 455px;
+  width: 100%;
+  margin-top: 0.35rem;
+  margin-bottom: 1.2rem;
+  transition: all 0.22s ease-out;
+  border-top: 0.7px solid lightgrey;
+  border-bottom: 0.7px solid lightgrey;
+`;
+const PostVideo = styled.video`
+  object-fit: fill;
+  height: auto;
+  max-height: 400px;
   width: 100%;
   margin-top: 0.35rem;
   margin-bottom: 1.2rem;

@@ -16,8 +16,10 @@ import { getUserInfo } from "../utils/messageActions";
 import Loader from "react-loader-spinner";
 import cookie from "js-cookie";
 import { Facebook } from "react-content-loader";
+import { ArrowSmRightIcon } from "@heroicons/react/solid";
 
 function ChatsPage({ user, chatsData }) {
+  const [windowWidth, setWindowWidth] = useState(0);
   const [chats, setChats] = useState(chatsData);
   const router = useRouter();
   const socket = useRef();
@@ -123,74 +125,150 @@ function ChatsPage({ user, chatsData }) {
     setNewText("");
   };
 
+
+  
+
   //Confirming a sent text and receiving the texts useEffect
   //socket.current.on is basically a listener that keeps listening for the event until we've moved to another page.
   //it just needs to be activated once on component mount
+  // useEffect(() => {
+  //   if (socket.current) {
+  //     socket.current.on("textSent", ({ newText }) => {
+  //       //if we're still on the same chat
+  //       if (newText.receiver === openChatId.current) {
+  //         setTexts((prev) => [...prev, newText]);
+
+  //         //setChats is basically used to set the data required for the left half of the column, as in the names and lastText and stuff
+  //         setChats((prev) => {
+  //           const previousChat = prev.find(
+  //             (chat) => chat.textsWith === newText.receiver
+  //           );
+  //           previousChat.lastText = newText.text;
+  //           previousChat.date = newText.date;
+
+  //           return [...prev];
+  //         });
+  //       }
+  //     });
+
+  //     socket.current.on("newTextReceived", async ({ newText, userDetails }) => {
+  //       //if router.query.message is same as id of the sender of the new text received, i.e. when the receiver has chat opened and sender sends a text
+  //       if (newText.sender === openChatId.current) {
+  //         setTexts((prev) => [...prev, newText]);
+
+  //         setChats((prev) => {
+  //           const previousChat = prev.find(
+  //             (chat) => chat.textsWith === newText.sender
+  //           );
+  //           previousChat.lastText = newText.text;
+  //           previousChat.date = newText.date;
+  //           return [...prev];
+  //         });
+  //       } else {
+  //         const ifPreviouslyTexted =
+  //           chats.filter((chat) => chat.textsWith === newText.sender).length >
+  //           0;
+
+  //         if (ifPreviouslyTexted) {
+  //           setChats((prev) => {
+  //             const previousChat = prev.find(
+  //               (chat) => chat.textsWith === newText.sender
+  //             );
+  //             previousChat.lastText = newText.text;
+  //             previousChat.date = newText.date;
+  //             return [...prev];
+  //           });
+  //         } else {
+  //           //if sender and receiver have never messaged before
+
+  //           const newChat = {
+  //             textsWith: newText.sender,
+  //             name: userDetails.name,
+  //             profilePicUrl: userDetails.profilePicUrl,
+  //             lastText: newText.text,
+  //             date: newText.date,
+  //           };
+  //           //newChat is added first so that it's at the top of chats and then it's displayed first as we defined it above
+  //           //chats[0] in useEffect above
+  //           setChats((prev) => [newChat, ...prev]);
+  //         }
+  //       }
+  //     });
+  //   }
+  // }, []);
+
   useEffect(() => {
     if (socket.current) {
-      socket.current.on("textSent", ({ newText }) => {
-        //if we're still on the same chat
+      const handleTextSent = ({ newText }) => {
+        // Handle textSent event
         if (newText.receiver === openChatId.current) {
-          setTexts((prev) => [...prev, newText]);
-
-          //setChats is basically used to set the data required for the left half of the column, as in the names and lastText and stuff
-          setChats((prev) => {
-            const previousChat = prev.find(
-              (chat) => chat.textsWith === newText.receiver
-            );
-            previousChat.lastText = newText.text;
-            previousChat.date = newText.date;
-
-            return [...prev];
+          setTexts((prevTexts) => [...prevTexts, newText]);
+  
+          // Update the chat state for the sender
+          setChats((prevChats) => {
+            return prevChats.map((chat) => {
+              if (chat.textsWith === newText.receiver) {
+                return {
+                  ...chat,
+                  lastText: newText.text,
+                  date: newText.date,
+                };
+              }
+              return chat;
+            });
           });
         }
-      });
-
-      socket.current.on("newTextReceived", async ({ newText, userDetails }) => {
-        //if router.query.message is same as id of the sender of the new text received, i.e. when the receiver has chat opened and sender sends a text
-        if (newText.sender === openChatId.current) {
-          setTexts((prev) => [...prev, newText]);
-
-          setChats((prev) => {
-            const previousChat = prev.find(
-              (chat) => chat.textsWith === newText.sender
-            );
-            previousChat.lastText = newText.text;
-            previousChat.date = newText.date;
-            return [...prev];
+      };
+  
+      const handleNewTextReceived = async ({ newText, userDetails }) => {
+        // Handle newTextReceived event
+        setTexts((prevTexts) => [...prevTexts, newText]);
+  
+        // Check if the sender is in the chats list
+        const senderInChats = chats.some((chat) => chat.textsWith === newText.sender);
+  
+        if (senderInChats) {
+          // Update the chat state for the sender
+          setChats((prevChats) => {
+            return prevChats.map((chat) => {
+              if (chat.textsWith === newText.sender) {
+                return {
+                  ...chat,
+                  lastText: newText.text,
+                  date: newText.date,
+                };
+              }
+              return chat;
+            });
           });
         } else {
-          const ifPreviouslyTexted =
-            chats.filter((chat) => chat.textsWith === newText.sender).length >
-            0;
-
-          if (ifPreviouslyTexted) {
-            setChats((prev) => {
-              const previousChat = prev.find(
-                (chat) => chat.textsWith === newText.sender
-              );
-              previousChat.lastText = newText.text;
-              previousChat.date = newText.date;
-              return [...prev];
-            });
-          } else {
-            //if sender and receiver have never messaged before
-
-            const newChat = {
-              textsWith: newText.sender,
-              name: userDetails.name,
-              profilePicUrl: userDetails.profilePicUrl,
-              lastText: newText.text,
-              date: newText.date,
-            };
-            //newChat is added first so that it's at the top of chats and then it's displayed first as we defined it above
-            //chats[0] in useEffect above
-            setChats((prev) => [newChat, ...prev]);
-          }
+          // Add a new chat entry for the sender
+          const newChat = {
+            textsWith: newText.sender,
+            name: userDetails.name,
+            profilePicUrl: userDetails.profilePicUrl,
+            lastText: newText.text,
+            date: newText.date,
+          };
+  
+          setChats((prevChats) => [newChat, ...prevChats]);
         }
-      });
+      };
+  
+      socket.current.on("textSent", handleTextSent);
+      socket.current.on("newTextReceived", handleNewTextReceived);
     }
-  }, []);
+  
+    // Cleanup event listeners when the component unmounts
+    return () => {
+      if (socket.current) {
+        socket.current.off("textSent");
+        socket.current.off("newTextReceived");
+      }
+    };
+  }, [openChatId, chats]);
+
+ 
 
   const endOfMessagesRef = useRef(null);
 
@@ -223,11 +301,31 @@ function ChatsPage({ user, chatsData }) {
     markMessagesAsRead();
   }, []);
 
+  useEffect(() => {
+    // Update the window width when the component mounts
+    setWindowWidth(window.innerWidth);
+
+    // Add a listener to update the window width when it changes
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    // Cleanup the listener when the component unmounts
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  // Conditionally render the Sidebar based on screen width
+  const renderSidebar = windowWidth > 500;
+
   return (
     <div className="bg-gray-100">
       <Header user={user} />
-      <main className="flex" style={{ height: "calc(100vh - 4.5rem)" }}>
-        <Sidebar user={user} maxWidth={"250px"} />
+      <main className="flex" style={{ height: "calc(100vh - 4rem)" }}>
+      {renderSidebar && <Sidebar user={user} maxWidth={"250px"} />}
         <div className="flex flex-grow mx-auto h-full w-full max-w-2xl lg:max-w-[65rem] xl:max-w-[70.5rem] bg-white  rounded-lg">
           <div
             style={{
@@ -235,7 +333,7 @@ function ChatsPage({ user, chatsData }) {
               borderRight: "1px solid lightgrey",
               fontFamily: "Inter",
             }}
-            className="lg:min-w-[27rem] relative pt-4"
+            className="w-[40%] lg:min-w-[27rem] relative pt-4"
           >
             <Title>Chats</Title>
             <div
@@ -314,11 +412,11 @@ function ChatsPage({ user, chatsData }) {
           {router.query.chat && (
             <div
               style={{
-                minWidth: "27rem",
+                minWidth: "11rem",
                 flex: "1",
                 borderRight: "1px solid lightgrey",
                 fontFamily: "Inter",
-                height: "calc(100vh - 4.5rem)",
+                height: "100%",
               }}
             >
               {chatUserData && chatUserData.profilePicUrl ? (
@@ -384,7 +482,7 @@ function ChatsPage({ user, chatsData }) {
                     className="flex items-center rounded-full bg-gray-100 p-4 m-4 max-h-12"
                   >
                     <input
-                      className="bg-transparent outline-none placeholder-gray-500 w-full font-thin hidden md:flex md:items-center flex-shrink"
+                      className="bg-transparent outline-none placeholder-gray-500 w-full font-thin md:flex md:items-center flex-shrink"
                       type="text"
                       value={newText}
                       onChange={(e) => {
@@ -393,12 +491,12 @@ function ChatsPage({ user, chatsData }) {
                       placeholder="Send a new text..."
                     />{" "}
                     <button
-                      hidden
+                      className="ml-auto"
                       disabled={!newText}
                       type="submit"
                       onClick={(e) => sendText(e, newText)}
                     >
-                      Send Message
+                      <ArrowSmRightIcon className="h-8" />
                     </button>
                   </form>
                 </div>

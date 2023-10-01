@@ -13,13 +13,14 @@ export const submitNewPost = async (
   text,
   location,
   picUrl,
+  vidUrl,
   setPosts,
   setNewPost,
   setError
 ) => {
   try {
     //post to /baseUrl/api/posts
-    const res = await Axios.post("/", { text, location, picUrl }); //on the backend, we destructure text, location and picUrl from req.body
+    const res = await Axios.post("/", { text, location, picUrl, vidUrl }); //on the backend, we destructure text, location and picUrl from req.body
     //res.data sends the whole post back
 
     setPosts((prev) => [res.data, ...prev]); //adding the new post at the top of the array so that it shows up first in feed
