@@ -17,7 +17,7 @@ import {
   ThumbUpIcon as ThumbUpOutlineIcon,
 } from "@heroicons/react/outline";
 import CommentComponent from "../../components/CommentComponent";
-import { TextareaAutosize } from "@material-ui/core";
+import { TextareaAutosize } from "@mui/material";
 import Header from "../../components/Header";
 import Sidebar from "../../components/Sidebar";
 import PostCard from "../../components/PostCard";
